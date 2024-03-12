@@ -53,7 +53,7 @@
             $username = "user";
             $password = "lozinka";
             $database = "radovi";
-
+            // Spajanje na bazu
             $this->_conn = new mysqli($servername, $username, $password, $database);
 
             if ($this->_conn->connect_error) {
@@ -63,7 +63,7 @@
 
         function create()
         {
-            $this->dohvatiPodatke();
+            $this->dohvatiHTMLPodatke();
         }
 
         function save()
@@ -92,7 +92,7 @@
             }
         }
 
-        function dohvatiPodatke()
+        function dohvatiHTMLPodatke()
         {   
             $url = "https://stup.ferit.hr/index.php/zavrsni-radovi/page/$this->_broj_stranice/";
             $html = file_get_contents($url);
@@ -118,7 +118,6 @@
                 foreach($elementiRada as $paragrafi){
                     $tekstRada = $tekstRada . "<br> " . $paragrafi->nodeValue;
                 }
-                
 
                 //OIB
                 $img = $element->getElementsByTagName('img')->item(0)->getAttribute('src');
@@ -131,7 +130,7 @@
                     'link_rada' => $link,
                     'oib_tvrtke' => $oib
                 );
-
+                
                 $this->_diplomskiRadovi[] = new DiplomskiRad($noviRad);
             }
         }
@@ -139,7 +138,7 @@
     }
 
     //TEST PROGRAMA
-    $radoviRepozitorij = new DiplomskiRadoviRepozitorij(3); //prosljeđujemo redni broj stranice s koje se dohvaćaju podaci
+    $radoviRepozitorij = new DiplomskiRadoviRepozitorij(2); //prosljeđujemo redni broj stranice s koje se dohvaćaju podaci
 
     //Dovat podataka
     $radoviRepozitorij->create();
